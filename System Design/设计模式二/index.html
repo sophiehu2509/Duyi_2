@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="oBtn">login</button>
+    <script>
+        //创建弹窗
+        var CreateAlert = function(text){
+            var oDiv = document.createElement('div');
+            oDiv.style.display = 'block';
+            oDiv.innerText = text;
+            document.body.appendChild(oDiv);
+            return oDiv;
+        }
+
+        // var singleAlert = (function(){
+        //     var oDiv = undefined; //不可以写null， null也是object
+
+        //     return function(text){
+        //         if(typeof oDiv === 'object'){
+        //             return oDiv;
+        //         }
+        //         oDiv = document.createElement('div');
+        //         oDiv.style.display = 'block';
+        //         oDiv.innerText = text;
+        //         document.body.appendChild(oDiv);
+        //         return oDiv;
+        //     }
+        // })()
+
+        //传 func 返回新的函数
+        var getSingle = function (func){
+            var result;
+            return function(){
+                if(!result){
+                    result = func.apply(this, arguments)
+                }
+                return result;
+            }
+        }
+       var singleAlert = getSingle(CreateAlert);
+
+        oBtn.onclick = function(){
+            // var oDiv = CreateAlert('hello duyi')
+            // var oDiv = singleAlert('hello duyi')
+            var oDiv = singleAlert('hello duyi')
+            oDiv.style.display = 'block';
+        }
+        
+        
+        
+    </script>
+</body>
+</html>

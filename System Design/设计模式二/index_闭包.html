@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        
+        //构造函数
+        // function Test(name){
+        //     // var this = Object.create(Test.prototype);
+        //     //判断是不是第一次 new Test
+        //     //下面的是把 test 做成全局变量
+        //     if(typeof Test.instance  === 'object'){
+        //         return Test.instance;
+        //     }
+        //     this.name = name;
+        //     Test.instance = this;
+        //     // return this
+        //     //如果构造函数 返回对象 那就不会返回this
+        // }
+        // var a = new Test('one');
+        // Test.prototype.lastName = 'D';
+        // var b = new Test();
+  
+        // console.log(a === b);
+        // console.log(b.lastName); //输出 undefined
+        // console.log(a.lastName); //输出 undefined
+        // // 
+        
+        //圣杯
+        
+        var Test = (function(){
+            var instance;
+            return function(name){
+                if(typeof instance === 'object'){
+                    return instance;
+                }
+                instance = this;
+                this.name = name;
+            }
+        })()
+
+        var a = new Test('one');
+        Test.prototype.lastName = 'D';
+        var b = new Test();
+  
+        console.log(a === b);
+        console.log(b.lastName); //输出 D
+        console.log(a.lastName); //输出 D
+    </script>
+</body>
+</html>
