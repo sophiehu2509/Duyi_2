@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="oBtn">login</button>
+    <script>
+        //当对方心情好的时候 才送花
+        var mrDeng = {
+            sendFlower:function(target){
+                var flower = 'sunflower';
+
+                target.receiveFlower(flower);
+            }
+        }
+
+        //代理
+        var cstProxy = {
+            proxyFlower: function(target){ 
+                this.listenMood(target, function(){
+                    mrDeng.sendFlower(target)
+                })
+            },
+            listenMood:function(target, cb){
+                var timer = setInterval(function(){
+                    if(target.mood){
+                        cb();
+                        clearInterval(timer);
+                    }
+                },300);
+            }
+        }
+
+        var goddess = {
+            mood:null,
+            receiveFlower:function(flower){
+                //true good false bad
+                this.mood?console.log('ok'):console.log('get out')
+       
+            },
+            changeMood:function(){
+            
+                this.mood= Math.random() > 0.5;
+           
+            },
+            createMood:function(){
+                var self = this;
+                setInterval (function(){
+                    self.changeMood();
+                }, 400)
+            }
+        }
+
+
+        goddess.createMood();
+
+        cstProxy.proxyFlower(goddess);
+    </script>
+</body>
+</html>
