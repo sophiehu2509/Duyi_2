@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            border:1px solid black;
+            display: inline-block;
+        }
+        div img{
+            width:100px;
+            height:200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="demo"></div>
+    <button id="oBtn">login</button>
+
+    <div>duyi</div>
+    
+    <button>add color</button>
+    <button>add bg</button>
+    <button>add width</button>
+    <button>add height</button>
+    <button>add fontSize</button>
+    <button>add fontWeight</button>
+    <script>
+        //预加载：
+        //首先要在计算机
+        var MyImage = function(id){
+            var oImg = new Image();
+            // document.createElement('img');
+            //上面的2句话 返回的都是一样的 HTMLImage
+            this.setSrc = function(src){
+                oImg.src = src;
+            }
+            document.getElementById(id).appendChild(oImg);
+        }
+
+      
+
+        var ProxyImage = (function(){
+            var oMyImg = new MyImage('demo');
+            var oNewImage = new Image();
+
+            //监控 当加载完成之后
+            oNewImage.onload = function(){
+                oMyImg.setSrc(oNewImage.src);
+            }
+            return function(src){
+                //当网页中需要多次应用占位图片的时候，运行下面这句语句，只会在第一次的时候请求地址，之后都是在内存中直接读取图片
+                oMyImg.setSrc('./image.jpg');
+                oNewImage.src=src;
+
+            }
+        })();
+
+        ProxyImage('https://static.veer.com/veer/static/resources/keyword/2020-02-19/b94a42fb11d64052ae5a9baa25f5370c.jpg')
+        // ProxyImage('./image.jpg')
+    </script>
+</body>
+</html>
