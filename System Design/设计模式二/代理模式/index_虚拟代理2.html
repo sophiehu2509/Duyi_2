@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      
+        div{
+            width:100px;
+            height:100px;
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="show">duyi</div>
+
+    
+    <button  type='bg'>add bg</button>
+    <button type='cl'>add color</button>
+    <button  type='op'>add opacity</button>
+    <button  type='fs'>add fontSize</button>
+    <button  type='fw'>add fontWeight</button>
+
+    <script>
+        var oDiv = document.getElementById('show');
+        var oButtonArray = document.getElementsByTagName('button')
+        var ProxyRequest = function (func){
+            var cache = [];
+            var timer = null;
+            return function (){
+                cache.push(this.getAttribute('type'))
+                timer = setTimeout(function(){
+                    func(oDiv, cache);
+                    cache = [];
+                }, 2000)
+            }
+        }
+
+        var realChangeStyle = ProxyRequest(changeStyle);
+
+        for(var i = 0; i<oButtonArray.length; i++){
+            oButtonArray[i].onclick = realChangeStyle
+        }
+
+        //相当于后台处理
+
+       function changeStyle(dom, typeArr){
+            var typeObj = {
+                bg:['backgroundColor', 'green'],
+                cl:['color', 'blue'],
+                fs:['fontSize', '24px'],
+                fw:['fontWeight', 'bold'],
+                op:['opacity', '0.3'],
+            }
+            //判断类型 是不是 数组 
+            if(typeArr.constructor === Array){
+                typeArr.forEach(function(ele){
+                    dom.style[typeObj[ele][0]] = typeObj[ele][1];
+                })
+            }else {
+                dom.style[typeObj[typeArr][0]] = typeObj[typeArr][1];
+            }
+            
+
+     }
+        
+        // var MyImage = function(id){
+        //     var oImg = new Image();
+        //     // document.createElement('img');
+        //     //上面的2句话 返回的都是一样的 HTMLImage
+        //     this.setSrc = function(src){
+        //         oImg.src = src;
+        //     }
+        //     document.getElementById(id).appendChild(oImg);
+        // }
+
+      
+
+        // var ProxyImage = (function(){
+        //     var oMyImg = new MyImage('demo');
+        //     var oNewImage = new Image();
+        //     oNewImage.onload = function(){
+        //         oMyImg.setSrc(oNewImage.src);
+        //     }
+        //     return function(src){
+        //         oMyImg.setSrc('./image.jpg');
+        //         oNewImage.src=src;
+
+        //     }
+        // })();
+
+        // ProxyImage('https://static.veer.com/veer/static/resources/keyword/2020-02-19/b94a42fb11d64052ae5a9baa25f5370c.jpg')
+        // // ProxyImage('./image.jpg')
+    </script>
+</body>
+</html>

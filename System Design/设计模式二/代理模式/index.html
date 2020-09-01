@@ -5,58 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        div{
-            border:1px solid black;
-            display: inline-block;
-        }
-        div img{
-            width:100px;
-            height:200px;
+      
+        
+        span{
+            color:red;
         }
     </style>
 </head>
 <body>
-    <div id="demo"></div>
-    <button id="oBtn">login</button>
 
-    <div>duyi</div>
+   <div>
+       用户名:<input type="text" id="userDom" name='username'/>
+       <span id="showUser"></span>
+       密码:<input type="password" id="psDom" name='code'/>
+       <span id="showPs"></span>
+       <button id="submit">提交</button>
+   </div>
 
-    <button>add color</button>
-    <button>add bg</button>
-    <button>add width</button>
-    <button>add height</button>
-    <button>add fontSize</button>
-    <button>add fontWeight</button>
-    
+   
+
     <script>
+        //用户名长度不能超过4个
+        //密码长度不能为空，密码长度不能小于6
+
+        var flag = true; //假定数据是可以发送成功的
+        submit.onclick = function (){
+            // showUser.innerText = '';
+            // showPs.innerText = '';
+            // if(userDom.value === ''){
+            //     flag = false;
+            //     showUser.innerText = '用户名不能为空'
+            // }else if(userDom.value.length >= 4){
+            //     flag = false;
+            //     showUser.innerText = '用户名长度不能超过4位'
+            // }
+
+            // if(psDom.value == ''){
+            //     flag = false;
+            //     showPs.innerText = '密码不能为空'
+            // }else if(psDom.value.length < 6){
+            //     flag = false;
+            //     showPs.innerText = '密码长度不能小于6'
+            // }
+
+            // if(flag){
+            //     Request();
+            // }
+
+            ProxyRequest()
+        }
+
+        function Request(){
+           
+        }
         
-        // var MyImage = function(id){
-        //     var oImg = new Image();
-        //     // document.createElement('img');
-        //     //上面的2句话 返回的都是一样的 HTMLImage
-        //     this.setSrc = function(src){
-        //         oImg.src = src;
-        //     }
-        //     document.getElementById(id).appendChild(oImg);
-        // }
-
-      
-
-        // var ProxyImage = (function(){
-        //     var oMyImg = new MyImage('demo');
-        //     var oNewImage = new Image();
-        //     oNewImage.onload = function(){
-        //         oMyImg.setSrc(oNewImage.src);
-        //     }
-        //     return function(src){
-        //         oMyImg.setSrc('./image.jpg');
-        //         oNewImage.src=src;
-
-        //     }
-        // })();
-
-        // ProxyImage('https://static.veer.com/veer/static/resources/keyword/2020-02-19/b94a42fb11d64052ae5a9baa25f5370c.jpg')
-        // // ProxyImage('./image.jpg')
+        //代理模式 A = C = B
+        var ProxyRequest = (function(){
+            return function(){
+                //引进策略模式
+                Request();
+            }
+        })()
+        
     </script>
 </body>
 </html>
