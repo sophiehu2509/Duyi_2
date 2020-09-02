@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //原始模式
+        // var smallPlane = {
+        //     width:100,
+        //     height:100,
+        //     blood:100,
+        //     touch:function(){
+        //         this.blood-= 50;
+        //         if(this.blood == 0){
+        //             console.log('die')
+        //         }
+        //     }
+        // }
+
+        //构造函数 类的方式 创建对象
+        function SmallPlane (){
+            this.width = 100;
+            this.height = 100;
+            this.name = 'SmallPlane';
+            this.blood = 100;
+            this.touch = function(){
+                this.blood -= 100;
+                if(this.blood == 0){
+                    console.log('die')
+                }
+            }
+        }
+
+        function BigPlane (){
+            this.width = 100;
+            this.height = 100;
+            this.name = 'BigPlane';
+            this.blood = 100;
+            this.touch = function(){
+                this.blood -= 50;
+                if(this.blood == 0){
+                    console.log('die')
+                }
+            }
+        }
+
+        function AttackPlane (){
+            this.width = 125;
+            this.height = 100;
+            this.name = 'AttackPlane';
+            this.blood = 100;
+            this.touch = function(){
+                this.blood -= 50;
+                if(this.blood == 0){
+                    console.log('die')
+                }
+            }
+            this.attack = function (){
+                console.log('buu')
+            }
+        }
+
+        function PlaneFactory(type){
+            var newPlane = null;
+            switch(type){
+                case 'SmallPlane':
+                   newPlane = new SmallPlane();
+                   console.log('3')
+                   break;
+                case 'BigPlane':
+                   newPlane = new BigPlane();
+                   break;
+                case 'AttackPlane':
+                   newPlane = new AttackPlane();
+                   break;
+            }
+            // newPlane.die = function(){
+            //     console.log('boomb')
+            // }
+            return newPlane
+        }
+
+        // new SmallPlane();
+
+
+    </script>
+</body>
+</html>

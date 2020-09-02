@@ -87,6 +87,8 @@
             },
         }
 
+
+        //add 添加校验规则 (dom, [{strategy:'isNonEmpty', errorMsg:'用户名不为空'}, {strategy:'maxLength:4', errorMsg:'用户名长度不能超过4'}])
         Validator.prototype.add = function(dom, showDom, strategyArr){
             var self = this;
             this.warnDom.push(showDom)
