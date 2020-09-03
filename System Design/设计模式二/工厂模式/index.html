@@ -21,70 +21,141 @@
         // }
 
         //构造函数 类的方式 创建对象
-        function SmallPlane (){
+        // function SmallPlane (){
+        //     this.width = 100;
+        //     this.height = 100;
+        //     this.name = 'SmallPlane';
+        //     this.blood = 100;
+        //     this.touch = function(){
+        //         this.blood -= 100;
+        //         if(this.blood == 0){
+        //             console.log('die')
+        //         }
+        //     }
+        // }
+
+        // function BigPlane (){
+        //     this.width = 100;
+        //     this.height = 100;
+        //     this.name = 'BigPlane';
+        //     this.blood = 100;
+        //     this.touch = function(){
+        //         this.blood -= 50;
+        //         if(this.blood == 0){
+        //             console.log('die')
+        //         }
+        //     }
+        // }
+
+        // function AttackPlane (){
+        //     this.width = 125;
+        //     this.height = 100;
+        //     this.name = 'AttackPlane';
+        //     this.blood = 100;
+        //     this.touch = function(){
+        //         this.blood -= 50;
+        //         if(this.blood == 0){
+        //             console.log('die')
+        //         }
+        //     }
+        //     this.attack = function (){
+        //         console.log('buu')
+        //     }
+        // }
+
+        //type 类型要是 string 比如'SmallPlane'
+        // function PlaneFactory(type){
+        //     var newPlane = null;
+        //     switch (type){
+        //         case 'SmallPlane':
+        //            newPlane = new SmallPlane();
+        //            break;
+        //         case 'BigPlane':
+        //            newPlane = new BigPlane();
+        //            break;
+        //         case 'AttackPlane':
+        //            newPlane = new AttackPlane();
+        //            break;
+        //     }
+        //     newPlane.die = function(){
+        //         console.log('boomb')
+        //     }
+        //     return newPlane
+        // }
+
+        // new SmallPlane();
+
+
+        //工厂方法模式 
+
+        function PlaneFactory(){
+
+        } 
+        //子类工厂都可以使用的公共方法
+        PlaneFactory.prototype.touch = function(){
+            this.blood -= 50;
+            if(this.blood == 0){
+                console.log('die')
+            }
+        }
+
+        PlaneFactory.prototype.die = function(){
+            alert('boomb')
+        }
+
+        //创建对象的接口
+        PlaneFactory.create = function(type){
+            //
+            if(PlaneFactory.prototype[type] == undefined){
+                throw 'no this constructor';
+            }
+            //继承模式
+
+             //判断更高效 更省效率 先判断 如果满足要求 再进行复杂动作    
+            if(PlaneFactory.prototype[type].prototype._proto_ !== PlaneFactory.prototype){
+                PlaneFactory.prototype[type].prototype = new PlaneFactory();
+            }
+            
+            //拆分 arguments
+            var arg = [].slice.call(arguments, 1);
+            // arg => [10, 20] ES6 ...arg
+            var newPlane = new PlaneFactory.prototype[type](...arg);
+
+            return newPlane
+
+        }
+
+        //真正定义子工厂
+        PlaneFactory.prototype.SmallPlane = function(x, y){
+            this.x = x;
+            this.y = y;
             this.width = 100;
             this.height = 100;
             this.name = 'SmallPlane';
             this.blood = 100;
-            this.touch = function(){
-                this.blood -= 100;
-                if(this.blood == 0){
-                    console.log('die')
-                }
-            }
+            
         }
 
-        function BigPlane (){
+        PlaneFactory.prototype.BigPlane = function(){
             this.width = 100;
             this.height = 100;
             this.name = 'BigPlane';
             this.blood = 100;
-            this.touch = function(){
-                this.blood -= 50;
-                if(this.blood == 0){
-                    console.log('die')
-                }
-            }
+            
         }
 
-        function AttackPlane (){
-            this.width = 125;
-            this.height = 100;
+        PlaneFactory.prototype.AttackPlane = function(){
+            this.width = 100;
+            this.height = 125;
             this.name = 'AttackPlane';
             this.blood = 100;
-            this.touch = function(){
-                this.blood -= 50;
-                if(this.blood == 0){
-                    console.log('die')
-                }
-            }
+            
             this.attack = function (){
-                console.log('buu')
+                console.log('biu~ biu~')
             }
         }
 
-        function PlaneFactory(type){
-            var newPlane = null;
-            switch(type){
-                case 'SmallPlane':
-                   newPlane = new SmallPlane();
-                   console.log('3')
-                   break;
-                case 'BigPlane':
-                   newPlane = new BigPlane();
-                   break;
-                case 'AttackPlane':
-                   newPlane = new AttackPlane();
-                   break;
-            }
-            // newPlane.die = function(){
-            //     console.log('boomb')
-            // }
-            return newPlane
-        }
-
-        // new SmallPlane();
-
+        var oAp = PlaneFactory.create('SmallPlane', 10, 20);
 
     </script>
 </body>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function PlaneFactory(){
+            //这一类的东西 都会有这个装饰方法
+           //你的同类加血，你同样加血
+            this.decorate_list = [];
+        }
+        //集合所有的装饰方法
+        PlaneFactory.prototype.decorators = {
+            eatOneLife:function(obj){
+                obj.blood += 100;
+            },
+            eatTwoLife:function(){
+                obj.blood += 200;
+            },
+            eatShrinkLife:function(){
+                obj.blood -= 50;
+            }
+        }
+        //搜集对某对象的装饰
+        PlaneFactory.prototype.decorate = function(decorator){
+            //只自己加血，同类不加血，要这么写
+            // this.decorate_list_self = 
+            
+            this.decorate_list.push(decorator);
+            console.log(this.decorate_list)
+        }
+        //更新装饰方法 让装饰方法作用在该对象的身上 
+        PlaneFactory.prototype.update = function(){
+            for(var i =0; i < this.decorate_list.length; i++){
+                this.decorate[this.decorate_list[i]] && this.decorators[this.decorate_list[i]](this)
+            }
+        }
+
+        PlaneFactory.prototype.empty = function(){
+            this.decorate_list = [];
+        }
+
+        PlaneFactory.prototype.remove = function(type){
+
+            this.decorate_list = this.decorate_list.filter(function(eleType){
+                return !(eleType === type)
+            })
+        }
+
+
+         //子类工厂都可以使用的公共方法
+         PlaneFactory.prototype.touch = function(){
+            this.blood -= 50;
+            if(this.blood == 0){
+                console.log('die')
+            }
+        }
+
+        PlaneFactory.prototype.die = function(){
+            alert('boomb')
+        }
+
+        //创建对象的接口
+        PlaneFactory.create = function(type){
+            //
+            if(PlaneFactory.prototype[type] == undefined){
+                throw 'no this constructor';
+            }
+            //继承模式
+
+             //判断更高效 更省效率 先判断 如果满足要求 再进行复杂动作    
+            if(PlaneFactory.prototype[type].prototype._proto_ !== PlaneFactory.prototype){
+                PlaneFactory.prototype[type].prototype = new PlaneFactory();
+            }
+            
+            //拆分 arguments
+            var arg = [].slice.call(arguments, 1);
+            // arg => [10, 20] ES6 ...arg
+            var newPlane = new PlaneFactory.prototype[type](...arg);
+
+            return newPlane
+
+        }
+
+        //真正定义子工厂
+        PlaneFactory.prototype.SmallPlane = function(x, y){
+            this.x = x;
+            this.y = y;
+            this.width = 100;
+            this.height = 100;
+            this.name = 'SmallPlane';
+            this.blood = 100;
+            
+        }
+
+        PlaneFactory.prototype.BigPlane = function(){
+            this.width = 100;
+            this.height = 100;
+            this.name = 'BigPlane';
+            this.blood = 100;
+            
+        }
+
+        PlaneFactory.prototype.AttackPlane = function(){
+            this.width = 100;
+            this.height = 125;
+            this.name = 'AttackPlane';
+            this.blood = 100;
+            
+            this.attack = function (){
+                console.log('biu~ biu~')
+            }
+        }
+
+        var oAp = PlaneFactory.create('SmallPlane', 10, 20);
+
+        oAp.decorate('eatOneLife');
+        oAp.decorate('eatTwoLife');
+        // oAp.remove('eatOneLife')
+
+    </script>
+</body>
+</html>
