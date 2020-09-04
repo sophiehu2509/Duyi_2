@@ -7,6 +7,7 @@
 </head>
 <body>
     <script>
+        PlaneFactory.prototype = new Event();
         function PlaneFactory(){
             //这一类的东西 都会有这个装饰方法
            //你的同类加血，你同样加血
@@ -30,7 +31,6 @@
             // this.decorate_list_self = 
             
             this.decorate_list.push(decorator);
-            console.log(this.decorate_list)
         }
         //更新装饰方法 让装饰方法作用在该对象的身上 
         PlaneFactory.prototype.update = function(){
@@ -115,12 +115,78 @@
             }
         }
 
+     
+
+        
+
+        //Event
+        //1. Event on emmit remove once
+        //2. 有助于了解，观察者模式
+        //3. node 模块进行会使用 比如fs http
+
+        //事件模块
+        function Event(){
+            //存储 不同事件类型对应的不同处理函数
+            this.cache = {};
+        }
+        Event.prototype.on = function(type, handle){
+            if(!this.cache[type]){
+                this.cache[type] = [handle];
+             
+            }else{
+                this.cache[type].push(handle);
+            }
+        }
+
+        Event.prototype.emit = function(){
+            var type = arguments[0];
+            var arg = [].slice.call(arguments, 1);
+            for(var i = 0; i < this.cache[type].length; i++){
+                this.cache[type][i].apply(this,arg);
+            }
+        }
+
+        Event.prototype.empty = function(){
+            this.cache[type] = [];
+        }
+
+        Event.prototype.remove = function(type, handle){
+            this.cache[type].filter(function(ele){
+                    return !(ele === handle)
+            })
+        }
+
+        Event.prototype.once = function(type, handle){
+            //设定flag emit apply 那边先判断一下flag
+        }
+
+        // var oE = new Event();
+        // function deal1(time){
+        //     console.log('overtime1: ' + time)
+        // }
+
+        // function deal2(time){
+        //     console.log('overtime2: ' + time )
+        // }
+        // oE.on('over', deal1)
+        // oE.on('over', deal2)
+
+        // oE.emit('over', '2018-9-25')
+
+        // oE.remove('over', deal2)
+
+        // oE.emit('over', 'second-2018-9-25');
+
         var oAp = PlaneFactory.create('SmallPlane', 10, 20);
 
         oAp.decorate('eatOneLife');
         oAp.decorate('eatTwoLife');
         // oAp.remove('eatOneLife')
+        oAp.on('die', function(){
+            this.die(0);
+        })
 
+        
     </script>
 </body>
 </html>
